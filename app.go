@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"slinger/types"
 )
 
 // App struct
@@ -21,7 +22,15 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) Get(request types.Request) types.Response {
+	fmt.Printf("header %s body %s and url %s", request.Headers, request.Body, request.URL)
+	headers := []types.KeyValue{
+		{Key: "success", Value: "true"},
+	}
+	response := types.Response{
+		StatusCode: 200,
+		Body:       `{"status":"success","message":"User saved successfully"}`,
+		Headers:    headers,
+	}
+	return response
 }
