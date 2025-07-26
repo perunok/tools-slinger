@@ -1,26 +1,20 @@
-<script>
+<script lang="ts">
   import MethodSelect from './MethodSelect.svelte';
   import HeadersEditor from './HeadersEditor.svelte';
   import BodyEditor from './BodyEditor.svelte';
   import { requestStore } from '../../lib/stores/requestStore';
   import { addToHistory } from '../../lib/stores/historyStore';
   import { mockSendRequest } from '../../lib/api/mockData';
+  import type { GoResponse } from "../../types/request-response";
   
   // @ts-ignore
   import {Get} from '../../../wailsjs/go/main/App'
+
 
   let url = '';
   let method = 'GET';
   let headers = [{ key: '', value: '' }];
   let body = '';
-
-  async function sendRequest() {
-    const request = { method, url, headers, body };
-    const response = await mockSendRequest(request);
-    requestStore.set({ request, response });
-    addToHistory(request);
-  }
-  
 
   async function sayHi() {
   const request = { method, url, headers, body };
@@ -32,13 +26,18 @@
   };
 
   try {
-    let responseString;
-    Get(r).then(response=>requestStore.set({request,response}))
+    const response: GoResponse = await Get(r);
+    const body = response.body
+
+    alert(body)
+
+    requestStore.set({ request, body });
     addToHistory(request);
   } catch (error) {
     console.error("Request failed:", error);
   }
 }
+
 
 </script>
 
