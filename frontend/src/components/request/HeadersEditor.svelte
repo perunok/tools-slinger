@@ -3,9 +3,11 @@
   function addHeader() {
     headers = [...headers, { key: '', value: '' }];
   }
+
+  export let isDarkMode;
 </script>
 
-<div class="mb-4">
+<div class="mb-4 {isDarkMode ? 'text-white' : 'text-black'}">
   <h3 class="font-medium mb-2">Headers</h3>
   {#each headers as header, i}
     <div class="flex mb-2">

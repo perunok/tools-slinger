@@ -1,8 +1,9 @@
 <script>
   export let body;
+  export let isDarkMode;
 </script>
 
-<div class="mb-4">
+<div class="mb-4 {isDarkMode ? 'text-white' : 'text-black'}">
   <h3 class="font-medium mb-2">Body</h3>
   <textarea
     bind:value={body}
